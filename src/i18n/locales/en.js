@@ -45,6 +45,7 @@ export default {
   'form.submit': 'Send to Telegram',
   'form.sending': 'Sending…',
   'form.sent': 'Message sent! It has already reached my Telegram, and I will reply soon.',
+  'form.received': 'Message received! I will reply to your email soon.',
   'form.invalid': 'Please check the fields: a valid email and a message of at least 10 characters.',
   'form.rateLimited': 'Too many messages in a row. Please try again in a few minutes.',
   'form.network': 'Could not reach the server. Please try again shortly.',

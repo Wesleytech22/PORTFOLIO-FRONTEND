@@ -45,6 +45,7 @@ export default {
   'form.submit': '发送到 Telegram',
   'form.sending': '发送中…',
   'form.sent': '留言已发送！它已到达我的 Telegram，我会尽快回复。',
+  'form.received': '留言已收到！我会尽快通过电子邮件回复你。',
   'form.invalid': '请检查填写内容：有效的电子邮箱，以及至少 10 个字符的留言。',
   'form.rateLimited': '发送过于频繁，请几分钟后再试。',
   'form.network': '无法连接服务器，请稍后再试。',

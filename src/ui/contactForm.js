@@ -30,9 +30,10 @@ export function initContactForm(form) {
     button.disabled = true;
     show('form.sending', 'info');
     try {
-      await portfolioService.sendContact(data);
+      const result = await portfolioService.sendContact(data);
       form.reset();
-      show('form.sent', 'ok');
+      // Só diz que chegou no Telegram quando a API confirma a entrega.
+      show(result?.telegram ? 'form.sent' : 'form.received', 'ok');
     } catch (err) {
       show(ERROR_KEYS[err.status] || 'form.failed', 'error');
     } finally {
