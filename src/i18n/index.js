@@ -3,7 +3,8 @@ import en from './locales/en.js';
 import zh from './locales/zh.js';
 
 // Internacionalização: português (padrão), inglês e chinês.
-// No HTML, data-i18n="chave" troca o texto e data-i18n-aria-label o rótulo.
+// No HTML, data-i18n="chave" troca o texto, data-i18n-aria-label o rótulo
+// e data-i18n-alt o texto alternativo de imagens.
 const LOCALES = { pt, en, zh };
 const HTML_LANG = { pt: 'pt-BR', en: 'en', zh: 'zh-CN' };
 const STORAGE_KEY = 'portfolio.lang';
@@ -39,6 +40,7 @@ export function applyTranslations(root = document) {
   document.querySelector('meta[name="description"]')?.setAttribute('content', t('meta.description'));
   root.querySelectorAll('[data-i18n]').forEach((node) => (node.textContent = t(node.dataset.i18n)));
   root.querySelectorAll('[data-i18n-aria-label]').forEach((node) => node.setAttribute('aria-label', t(node.dataset.i18nAriaLabel)));
+  root.querySelectorAll('[data-i18n-alt]').forEach((node) => node.setAttribute('alt', t(node.dataset.i18nAlt)));
   root.querySelectorAll('[data-lang]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.lang === current)));
 }
 

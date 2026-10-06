@@ -19,6 +19,8 @@ export default {
   'about.title': 'About',
   'about.p1': 'I am a creative and dynamic mobile developer, passionate about technology and about finding innovative solutions. I bring strong analytical skills and strategic vision to turn challenges into concrete results.',
   'about.p2': 'I work across every stage of the product, from concept to deployment: Android apps, real-time communication with MQTT, AWS integration and certification of POS terminals and self-service kiosks.',
+  'about.photoMain': 'Wesley Rodrigues Dias',
+  'about.photoTravel': 'Wesley traveling, on the airport train',
   'about.education': 'Education',
   'about.degree': 'Degree in Systems Analysis and Development',
   'about.school': 'Cruzeiro do Sul University',

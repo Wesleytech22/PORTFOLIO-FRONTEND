@@ -19,6 +19,8 @@ export default {
   'about.title': 'Sobre',
   'about.p1': 'Sou desenvolvedor mobile, criativo e dinâmico, apaixonado por tecnologia e pela busca de soluções inovadoras. Tenho forte capacidade de análise e visão estratégica para transformar desafios em resultados concretos.',
   'about.p2': 'Atuo em todas as etapas do produto, da concepção à implantação: apps Android, comunicação em tempo real com MQTT, integração com AWS e homologação de terminais POS e totens de autoatendimento.',
+  'about.photoMain': 'Wesley Rodrigues Dias',
+  'about.photoTravel': 'Wesley em viagem, no trem do aeroporto',
   'about.education': 'Formação',
   'about.degree': 'Formado em Análise e Desenvolvimento de Sistemas',
   'about.school': 'Universidade Cruzeiro do Sul',
