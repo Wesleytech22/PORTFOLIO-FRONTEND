@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import { material, part, group, damp } from './parts.js';
 
 // Personagem sentado, modelado a partir da foto: pele morena clara, cabelo
-// curto escuro, cavanhaque, óculos, polo branca, calça preta, tênis preto de
-// sola branca e relógio no pulso esquerdo. Fica de frente para +z.
+// curto escuro, boné, cavanhaque, óculos, polo branca, calça preta, tênis
+// preto de sola branca e relógio no pulso esquerdo. Fica de frente para +z.
 const PALETTE = {
   skin: 0xc68d66,
   hair: 0x141011,
@@ -14,6 +14,8 @@ const PALETTE = {
   frame: 0x2a2a2e,
   lip: 0x8e4f40,
   logo: 0x1f6f63,
+  cap: 0x121418,
+  capAccent: 0x19e3d0,
   watch: 0x1b1d22,
   watchFace: 0x9fb3c8,
 };
@@ -32,6 +34,8 @@ function createMaterials() {
     pupil: material(0x0b0b0d, { roughness: 0.2 }),
     lip: material(PALETTE.lip),
     logo: material(PALETTE.logo),
+    cap: material(PALETTE.cap, { roughness: 0.85 }),
+    capAccent: material(PALETTE.capAccent, { emissive: PALETTE.capAccent, emissiveIntensity: 0.35, roughness: 0.5 }),
     watch: material(PALETTE.watch, { metalness: 0.5, roughness: 0.35 }),
     watchFace: material(PALETTE.watchFace, { metalness: 0.9, roughness: 0.2 }),
   };
@@ -53,6 +57,19 @@ function createLegs(M) {
   return legs;
 }
 
+// Boné preto com aba para a frente, botão no topo e bordado verde-água.
+function createCap(M) {
+  const cap = group([0, 0.135, -0.004], [-0.18, 0, 0]);
+  cap.add(
+    part(new THREE.SphereGeometry(0.132, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), M.cap, { scale: [0.97, 0.78, 1.04] }), // copa
+    part(new THREE.CylinderGeometry(0.135, 0.135, 0.01, 32), M.cap, { position: [0, 0.002, 0], scale: [0.97, 1, 1.04] }), // faixa da base
+    part(new THREE.CylinderGeometry(0.105, 0.105, 0.008, 32), M.cap, { position: [0, 0.012, 0.125], rotation: [0.32, 0, 0], scale: [1, 1, 0.72] }), // aba
+    part(new THREE.SphereGeometry(0.011, 12, 8), M.capAccent, { position: [0, 0.103, 0] }), // botão
+    part(new THREE.BoxGeometry(0.05, 0.02, 0.004), M.capAccent, { position: [0, 0.058, 0.118], rotation: [-0.62, 0, 0] }) // bordado
+  );
+  return cap;
+}
+
 function createHead(M) {
   const head = group([0, 0.66, 0]);
   const add = (...meshes) => head.add(...meshes);
@@ -60,18 +77,25 @@ function createHead(M) {
   add(part(new THREE.CylinderGeometry(0.05, 0.055, 0.14, 16), M.skin, { position: [0, -0.03, 0] })); // pescoço
   add(part(new THREE.SphereGeometry(0.115, 32, 24), M.skin, { position: [0, 0.1, 0], scale: [0.92, 1.08, 1] }));
 
-  // Cabelo curto: calota que cobre topo e nuca, mais volume em cima.
+  // Cabelo curto: calota que aparece nas laterais e na nuca, por baixo do boné.
   add(
     part(new THREE.SphereGeometry(0.123, 32, 16, 0, Math.PI * 2, 0, 1.2), M.hair, {
       position: [0, 0.108, -0.006],
       rotation: [-0.3, 0, 0],
-      scale: [0.95, 1.06, 1.03],
-    }),
-    part(new THREE.SphereGeometry(0.1, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), M.hair, {
-      position: [0, 0.17, -0.005],
-      scale: [1.06, 0.6, 1.1],
+      scale: [0.95, 1.0, 1.03],
     })
   );
+  // Faixa de cabelo baixo que sai por baixo do boné, das orelhas até a nuca.
+  add(
+    part(new THREE.SphereGeometry(0.12, 32, 12, Math.PI, Math.PI, 0.95, 0.8), M.hair, {
+      position: [0, 0.1, -0.004],
+      scale: [0.95, 1.06, 1.03],
+    })
+  );
+  for (const side of [-1, 1]) {
+    add(part(new THREE.SphereGeometry(0.022, 12, 10), M.hair, { position: [side * 0.102, 0.124, 0.026], scale: [0.3, 1.1, 0.5] })); // costeleta
+  }
+  head.add(createCap(M));
 
   for (const side of [-1, 1]) {
     add(part(new THREE.SphereGeometry(0.025, 12, 12), M.skin, { position: [side * 0.106, 0.09, -0.005], scale: [0.5, 1, 0.8] })); // orelha
