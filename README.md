@@ -17,6 +17,10 @@ Suba o backend antes; sem ele, as seções vindas da API mostram o erro com "Ten
 - **Avatar 3D digitando código:** personagem modelado a partir da foto (pele, cabelo, óculos, cavanhaque,
   polo branca, tênis e relógio) digita Kotlin numa tela holográfica, com cores de sintaxe e auto-indentação.
   As teclas acendem a cada toque, ele olha para quem passa o mouse (ou toca) e pausa fora da tela.
+- **Modo história:** ao clicar em "Sobre" (menu) ou em "Ouvir minha história", o avatar se levanta, entra
+  andando e para em cada marco da trajetória (faculdade, suporte, desenvolvimento, pós em Mobile Engineering)
+  contando aquela parte num balão de fala. Navegação por botões, pontos ou setas; Esc fecha.
+  Roteiro em `src/scene/story/chapters.js` e textos em `story.*` nos idiomas.
 - **Três idiomas:** seletor PT · EN · 中文 no topo. A escolha fica salva, e `?lang=en` ou `?lang=zh`
   no link abre a página já traduzida (bom para enviar a recrutadores).
 - **Contato pelo Telegram:** o formulário envia à API, que avisa no Telegram na hora.
@@ -32,7 +36,8 @@ src/
   services/portfolio.service.js um método por coleção da API, já no idioma da página
   components/                   cards e estados carregando/vazio/erro
   scene/scene.js                fundo 3D da página
-  scene/avatar/                 avatar: character, workstation, codeScreen, customAvatar, index
+  scene/avatar/                 avatar: character (poses sentado/em pé/andando/falando/acenando), workstation, codeScreen, customAvatar, index
+  scene/story/                  modo história: chapters (roteiro), stage (palco e painéis), index (controle)
   ui/                           inclinação 3D, animação de entrada e formulário de contato
   styles/main.css
 ```

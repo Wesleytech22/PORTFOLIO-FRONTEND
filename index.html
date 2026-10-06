@@ -18,7 +18,7 @@
   <header class="nav">
     <a href="#inicio" class="brand">WRD<span>.</span></a>
     <nav>
-      <a href="#sobre" data-i18n="nav.about">Sobre</a>
+      <a href="#sobre" data-i18n="nav.about" data-story-open>Sobre</a>
       <a href="#experiencia" data-i18n="nav.experience">Experiência</a>
       <a href="#servicos" data-i18n="nav.services">Serviços</a>
       <a href="#projetos" data-i18n="nav.projects">Projetos</a>
@@ -50,7 +50,10 @@
     </section>
 
     <section id="sobre" class="panel">
-      <h2 data-i18n="about.title">Sobre</h2>
+      <div class="section-head">
+        <h2 data-i18n="about.title">Sobre</h2>
+        <button type="button" class="btn btn-sm" data-story-open data-i18n="story.open">▶ Ouvir minha história</button>
+      </div>
       <div class="about">
         <!-- Pilha de fotos em 3D: a de trás vem para a frente ao passar o mouse. -->
         <div class="photo-stack">
@@ -67,6 +70,7 @@
           <div class="facts">
             <div class="card">
               <h3 data-i18n="about.education">Formação</h3>
+              <p><span data-i18n="about.postgrad">Pós-graduação em Mobile Engineering</span> <span class="badge" data-i18n="about.inProgress">em andamento</span></p>
               <p><span data-i18n="about.degree">Formado em Análise e Desenvolvimento de Sistemas</span><br /><span class="muted" data-i18n="about.school">Universidade Cruzeiro do Sul</span></p>
             </div>
             <div class="card">
@@ -135,6 +139,25 @@
   </main>
 
   <footer data-i18n="footer.text">© 2026 Wesley Rodrigues Dias · Desenvolvedor Mobile</footer>
+
+  <!-- Modo história (src/scene/story/): abre ao clicar em "Sobre". -->
+  <div id="story" class="story" role="dialog" aria-modal="true" aria-labelledby="story-title" hidden>
+    <canvas class="story-canvas" aria-hidden="true"></canvas>
+    <div class="story-top">
+      <h2 id="story-title" data-i18n="story.title">Minha história</h2>
+      <button type="button" class="story-close" data-story-close data-i18n-aria-label="story.close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="story-bubble" data-story-bubble>
+      <p data-story-text aria-live="polite"></p>
+      <button type="button" class="btn btn-sm" data-story-cta data-i18n="story.cta" hidden>Falar comigo</button>
+    </div>
+    <div class="story-controls">
+      <button type="button" class="btn btn-sm btn-ghost" data-story-prev data-i18n="story.prev">Anterior</button>
+      <div class="story-dots" data-story-dots></div>
+      <button type="button" class="btn btn-sm" data-story-next data-i18n="story.next">Próximo</button>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>
