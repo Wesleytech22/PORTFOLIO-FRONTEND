@@ -19,6 +19,8 @@ export default {
   'about.title': '关于我',
   'about.p1': '我是一名富有创意、充满活力的移动端开发工程师，热爱技术，乐于探索创新的解决方案。我具备扎实的分析能力和战略眼光，善于将挑战转化为切实的成果。',
   'about.p2': '我参与产品的每一个阶段，从构思到部署：Android 应用、基于 MQTT 的实时通信、AWS 集成，以及 POS 终端和自助服务终端的认证。',
+  'about.photoMain': 'Wesley Rodrigues Dias',
+  'about.photoTravel': 'Wesley 在旅途中，乘坐机场列车',
   'about.education': '教育背景',
   'about.degree': '系统分析与开发专业毕业',
   'about.school': '南十字星大学（Universidade Cruzeiro do Sul）',

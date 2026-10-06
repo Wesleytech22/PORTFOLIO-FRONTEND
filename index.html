@@ -7,7 +7,7 @@
   <meta name="description" content="Wesley Rodrigues Dias, desenvolvedor mobile: apps Android com Kotlin e Jetpack Compose, comunicação em tempo real e terminais POS." />
   <meta property="og:title" content="Wesley Rodrigues Dias — Desenvolvedor Mobile" />
   <meta property="og:description" content="Apps Android com Kotlin e Jetpack Compose, MQTT, AWS e terminais POS." />
-  <meta property="og:image" content="/assets/wesley-rodrigues.jpg" />
+  <meta property="og:image" content="/assets/wesley-perfil.jpg" />
   <meta name="theme-color" content="#070912" />
   <link rel="icon" href="/assets/lumen-forge-mark.png" />
 </head>
@@ -52,9 +52,15 @@
     <section id="sobre" class="panel">
       <h2 data-i18n="about.title">Sobre</h2>
       <div class="about">
-        <figure class="photo-frame tilt">
-          <img src="/assets/wesley-rodrigues.jpg" alt="Wesley Rodrigues Dias" width="1200" height="1600" loading="lazy" />
-        </figure>
+        <!-- Pilha de fotos em 3D: a de trás vem para a frente ao passar o mouse. -->
+        <div class="photo-stack">
+          <figure class="photo-frame photo-back">
+            <img src="/assets/wesley-viagem.jpg" data-i18n-alt="about.photoTravel" alt="Wesley em viagem, no trem do aeroporto" width="900" height="1600" loading="lazy" />
+          </figure>
+          <figure class="photo-frame photo-front tilt">
+            <img src="/assets/wesley-perfil.jpg" data-i18n-alt="about.photoMain" alt="Wesley Rodrigues Dias" width="431" height="936" loading="lazy" />
+          </figure>
+        </div>
         <div class="about-text">
           <p data-i18n="about.p1">Sou desenvolvedor mobile, criativo e dinâmico, apaixonado por tecnologia e pela busca de soluções inovadoras. Tenho forte capacidade de análise e visão estratégica para transformar desafios em resultados concretos.</p>
           <p data-i18n="about.p2">Atuo em todas as etapas do produto, da concepção à implantação: apps Android, comunicação em tempo real com MQTT, integração com AWS e homologação de terminais POS e totens de autoatendimento.</p>
