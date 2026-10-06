@@ -41,20 +41,55 @@ function createMaterials() {
   };
 }
 
+// Pernas articuladas (quadril → joelho), para sentar, ficar de pé e andar.
+// Coxa e canela medem 0,42 m: sentado, o quadril fica a 0,53 m do chão;
+// de pé, a 0,95 m.
 function createLegs(M) {
-  const legs = new THREE.Group();
-  legs.add(part(new THREE.BoxGeometry(0.34, 0.14, 0.26), M.pants, { position: [0, 0.53, -0.02] }));
-  for (const side of [-1, 1]) {
-    const x = side * 0.105;
-    legs.add(
-      part(new THREE.CapsuleGeometry(0.075, 0.32, 6, 12), M.pants, { position: [x, 0.53, 0.18], rotation: [Math.PI / 2, 0, 0] }),
-      part(new THREE.CapsuleGeometry(0.062, 0.34, 6, 12), M.pants, { position: [x, 0.3, 0.4] }),
-      part(new THREE.BoxGeometry(0.11, 0.08, 0.26), M.shoe, { position: [x, 0.07, 0.45] }),
-      part(new THREE.BoxGeometry(0.116, 0.026, 0.27), M.sole, { position: [x, 0.022, 0.45] }),
-      part(new THREE.BoxGeometry(0.118, 0.012, 0.13), M.sole, { position: [x, 0.08, 0.43] }) // faixa lateral do tênis
+  const legs = [-1, 1].map((side) => {
+    const hip = group([side * 0.105, 0.53, -0.02]);
+    hip.add(part(new THREE.CapsuleGeometry(0.075, 0.28, 6, 12), M.pants, { position: [0, -0.21, 0] }));
+    const knee = group([0, -0.42, 0]);
+    knee.add(
+      part(new THREE.CapsuleGeometry(0.062, 0.3, 6, 12), M.pants, { position: [0, -0.2, 0] }),
+      part(new THREE.BoxGeometry(0.11, 0.08, 0.26), M.shoe, { position: [0, -0.46, 0.05] }),
+      part(new THREE.BoxGeometry(0.116, 0.026, 0.27), M.sole, { position: [0, -0.508, 0.05] }),
+      part(new THREE.BoxGeometry(0.118, 0.012, 0.13), M.sole, { position: [0, -0.45, 0.03] }) // faixa lateral do tênis
     );
+    hip.add(knee);
+    return { hip, knee, side };
+  });
+  const pelvis = part(new THREE.BoxGeometry(0.34, 0.14, 0.26), M.pants, { position: [0, 0.53, -0.02] });
+  return { legs, pelvis };
+}
+
+// Ângulos-alvo de cada pose. As articulações se aproximam suavemente deles,
+// então trocar de pose (sentar → levantar → andar) vira uma transição.
+const STAND_HEIGHT = 0.42;
+function poseTargets(mode, t, side) {
+  const right = side > 0;
+  if (mode === 'sit') {
+    return { bodyY: 0, lean: 0.1, hip: -Math.PI / 2, knee: Math.PI / 2, shoulderX: -0.45, shoulderZ: -side * 0.15, elbowX: -1.15, wristX: 0.3, finger: 0.25 };
   }
-  return legs;
+  const stand = { bodyY: STAND_HEIGHT, lean: 0.02, hip: 0, knee: 0.04, shoulderX: 0.06, shoulderZ: side * 0.1, elbowX: -0.22, wristX: 0.05, finger: 0.45 };
+  if (mode === 'walk') {
+    const phase = t * 6.2 + (right ? 0 : Math.PI);
+    return {
+      ...stand,
+      bodyY: STAND_HEIGHT + Math.abs(Math.sin(t * 6.2)) * 0.025,
+      lean: 0.06,
+      hip: Math.sin(phase) * 0.48,
+      knee: 0.1 + Math.max(0, Math.sin(phase + Math.PI / 2)) * 0.65,
+      shoulderX: -Math.sin(phase) * 0.42,
+      elbowX: -0.35,
+    };
+  }
+  if (mode === 'wave' && right) {
+    return { ...stand, shoulderX: -0.15, shoulderZ: 2.55, elbowX: -0.35 + Math.sin(t * 9) * 0.38, wristX: 0 };
+  }
+  if (mode === 'talk' && right) {
+    return { ...stand, shoulderX: -0.55 + Math.sin(t * 2.3) * 0.12, shoulderZ: 0.25, elbowX: -1.05 + Math.sin(t * 3.1) * 0.18, wristX: 0.25 };
+  }
+  return { ...stand, shoulderX: stand.shoulderX + Math.sin(t * 1.4 + side) * 0.03 };
 }
 
 // Boné preto com aba para a frente, botão no topo e bordado verde-água.
@@ -110,9 +145,10 @@ function createHead(M) {
     return eye;
   });
 
+  const mouth = part(new THREE.TorusGeometry(0.028, 0.0055, 8, 20, Math.PI), M.lip, { position: [0, 0.052, 0.103], rotation: [0.15, 0, Math.PI] }); // sorriso
   add(
     part(new THREE.SphereGeometry(0.021, 16, 12), M.skin, { position: [0, 0.085, 0.114], scale: [1.05, 0.9, 1] }), // nariz
-    part(new THREE.TorusGeometry(0.028, 0.0055, 8, 20, Math.PI), M.lip, { position: [0, 0.052, 0.103], rotation: [0.15, 0, Math.PI] }), // sorriso
+    mouth,
     part(new THREE.BoxGeometry(0.052, 0.009, 0.012), M.hair, { position: [0, 0.066, 0.108] }), // bigode
     part(new THREE.SphereGeometry(0.03, 16, 12), M.hair, { position: [0, 0.006, 0.078], scale: [1, 0.75, 0.6] }) // cavanhaque
   );
@@ -127,7 +163,7 @@ function createHead(M) {
   }
   add(part(new THREE.BoxGeometry(0.024, 0.004, 0.004), M.frame, { position: [0, 0.121, 0.124] }));
 
-  return { head, eyes };
+  return { head, eyes, mouth };
 }
 
 // Braço: ombro → cotovelo → pulso → dedos, cada articulação um Group.
@@ -166,13 +202,32 @@ function createArm(M, side) {
   return { shoulder, elbow, wrist, fingers, side };
 }
 
+// Aproxima a articulação do ângulo-alvo e soma um movimento extra (digitação)
+// sem acumular: a base suavizada fica guardada à parte em userData.
+function joint(obj, axis, target, lambda, dt, extra = 0) {
+  const key = `base_${axis}`;
+  obj.userData[key] = damp(obj.userData[key] ?? obj.rotation[axis], target, lambda, dt);
+  obj.rotation[axis] = obj.userData[key] + extra;
+}
+
+// update(t, dt, estado) aceita:
+//   mode: 'sit' (digitando, padrão) | 'stand' | 'walk' | 'talk' | 'wave'
+//   typing, lookAtViewer: usados no modo sentado
+//   talking: mexe a boca; headYaw: para onde a cabeça vira de pé
 export function createCharacter() {
   const M = createMaterials();
   const root = new THREE.Group();
-  root.add(createLegs(M));
+  const body = new THREE.Group(); // sobe 0,42 m quando ele se levanta
+  root.add(body);
+  const { legs, pelvis } = createLegs(M);
+  body.add(pelvis, ...legs.map((leg) => leg.hip));
+  legs.forEach((leg) => {
+    leg.hip.rotation.x = -Math.PI / 2; // começa sentado
+    leg.knee.rotation.x = Math.PI / 2;
+  });
 
   const torso = group([0, 0.58, -0.04], [0.1, 0, 0]);
-  root.add(torso);
+  body.add(torso);
   const chest = part(new THREE.CapsuleGeometry(0.17, 0.26, 8, 20), M.shirt, { position: [0, 0.26, 0], scale: [1.12, 1, 0.78] });
   torso.add(
     chest,
@@ -181,7 +236,7 @@ export function createCharacter() {
     part(new THREE.BoxGeometry(0.05, 0.022, 0.006), M.logo, { position: [0.085, 0.42, 0.128] }) // bordado no peito
   );
 
-  const { head, eyes } = createHead(M);
+  const { head, eyes, mouth } = createHead(M);
   torso.add(head);
   const arms = [createArm(M, -1), createArm(M, 1)];
   arms.forEach((arm) => torso.add(arm.shoulder));
@@ -193,43 +248,73 @@ export function createCharacter() {
   let nextGlanceAt = 3;
   let nextBlinkAt = 2;
 
-  function update(t, dt, { typing, lookAtViewer }) {
-    typingAmount = damp(typingAmount, typing ? 1 : 0, 8, dt);
-    lookAmount = damp(lookAmount, lookAtViewer ? 1 : 0, 5, dt);
-
+  function updateHeadSeated(t, dt) {
     // De vez em quando olha para o teclado.
     if (t > nextGlanceAt) {
       glance = glance ? 0 : 1;
       nextGlanceAt = t + (glance ? 0.9 : 3 + Math.random() * 4);
     }
+    // Olha para a tela à esquerda; com o mouse em cima, olha para quem visita.
+    const pitchScreen = glance ? 0.32 : 0.02;
+    head.rotation.y = damp(head.rotation.y, THREE.MathUtils.lerp(-0.42, 0.32, lookAmount), 6, dt);
+    head.rotation.x = damp(head.rotation.x, THREE.MathUtils.lerp(pitchScreen, -0.05, lookAmount), 6, dt) + Math.sin(t * 9) * 0.004 * typingAmount;
+  }
+
+  function update(t, dt, { mode = 'sit', typing = false, lookAtViewer = false, talking = false, headYaw = 0 } = {}) {
+    const seated = mode === 'sit';
+    typingAmount = damp(typingAmount, seated && typing ? 1 : 0, 8, dt);
+    lookAmount = damp(lookAmount, lookAtViewer ? 1 : 0, 5, dt);
+    const speed = mode === 'walk' ? 14 : 7; // na caminhada as pernas acompanham o passo sem atraso
+
+    // Corpo e pernas
+    const base = poseTargets(mode, t, 1);
+    body.position.y = damp(body.position.y, base.bodyY, speed, dt);
+    torso.rotation.x = damp(torso.rotation.x, base.lean, 6, dt);
+    for (const leg of legs) {
+      const pose = poseTargets(mode, t, leg.side);
+      leg.hip.rotation.x = damp(leg.hip.rotation.x, pose.hip, speed, dt);
+      leg.knee.rotation.x = damp(leg.knee.rotation.x, pose.knee, speed, dt);
+    }
 
     // Respiração
     chest.scale.y = 1 + Math.sin(t * 1.6) * 0.012;
 
-    // Cabeça: olha para a tela à esquerda; com o mouse em cima, olha para quem visita.
-    const yawScreen = -0.42;
-    const pitchScreen = glance ? 0.32 : 0.02;
-    head.rotation.y = damp(head.rotation.y, THREE.MathUtils.lerp(yawScreen, 0.32, lookAmount), 6, dt);
-    head.rotation.x = damp(head.rotation.x, THREE.MathUtils.lerp(pitchScreen, -0.05, lookAmount), 6, dt) + Math.sin(t * 9) * 0.004 * typingAmount;
+    // Cabeça
+    if (seated) {
+      updateHeadSeated(t, dt);
+    } else {
+      head.rotation.y = damp(head.rotation.y, headYaw, 5, dt);
+      head.rotation.x = damp(head.rotation.x, talking ? Math.sin(t * 4.2) * 0.05 : -0.03, 6, dt);
+    }
     head.rotation.z = Math.sin(t * 0.7) * 0.02;
+
+    // Boca: abre e fecha enquanto fala.
+    mouth.scale.y = talking ? 1 + Math.abs(Math.sin(t * 13)) * 1.6 : damp(mouth.scale.y, 1, 10, dt);
 
     // Piscar
     if (t > nextBlinkAt) nextBlinkAt = t + 2.5 + Math.random() * 3;
     const blink = nextBlinkAt - t > 2.38 ? 0.1 : 1;
     eyes.forEach((eye) => (eye.scale.y = blink));
 
-    // Digitação: dedos batendo em ritmos diferentes, pulsos e ombros acompanhando.
+    // Braços: pose do modo + digitação (dedos em ritmos diferentes).
     for (const arm of arms) {
       const s = arm.side;
-      arm.shoulder.rotation.x = -0.45 + Math.sin(t * 7 + s) * 0.02 * typingAmount;
-      arm.wrist.rotation.x = 0.3 + Math.sin(t * 13 + s * 2) * 0.06 * typingAmount;
+      const pose = poseTargets(mode, t, s);
+      joint(arm.shoulder, 'x', pose.shoulderX, speed, dt, Math.sin(t * 7 + s) * 0.02 * typingAmount);
+      joint(arm.shoulder, 'z', pose.shoulderZ, 7, dt);
+      joint(arm.elbow, 'x', pose.elbowX, speed, dt);
+      joint(arm.wrist, 'x', pose.wristX, 7, dt, Math.sin(t * 13 + s * 2) * 0.06 * typingAmount);
       arm.wrist.rotation.y = Math.sin(t * 3.1 + s) * 0.12 * typingAmount;
       for (const finger of arm.fingers) {
         const tap = Math.max(0, Math.sin(t * 21 + finger.userData.phase));
-        finger.rotation.x = 0.25 + tap * 0.7 * typingAmount;
+        joint(finger, 'x', pose.finger, 7, dt, tap * 0.7 * typingAmount);
       }
     }
   }
 
-  return { group: root, update };
+  // Posição da cabeça no mundo (para o balão de fala acompanhar).
+  const headWorld = new THREE.Vector3();
+  const getHeadPosition = () => head.getWorldPosition(headWorld);
+
+  return { group: root, update, getHeadPosition };
 }
