@@ -1,18 +1,18 @@
 import * as THREE from 'three';
 import { material, part, group, damp } from './parts.js';
 
-// Personagem sentado, modelado a partir da foto: pele morena, cabelo curto
-// escuro, cavanhaque, óculos, polo branca, calça preta, tênis preto de sola
-// branca e relógio no pulso esquerdo. Fica de frente para +z.
+// Personagem sentado, modelado a partir da foto: pele morena clara, cabelo
+// curto escuro, cavanhaque, óculos, polo branca, calça preta, tênis preto de
+// sola branca e relógio no pulso esquerdo. Fica de frente para +z.
 const PALETTE = {
-  skin: 0x7b4a2f,
+  skin: 0xc68d66,
   hair: 0x141011,
   shirt: 0xf2f4f7,
   pants: 0x16171c,
   shoe: 0x0f0f12,
   sole: 0xf5f5f5,
   frame: 0x2a2a2e,
-  lip: 0x5a2e22,
+  lip: 0x8e4f40,
   logo: 0x1f6f63,
   watch: 0x1b1d22,
   watchFace: 0x9fb3c8,
