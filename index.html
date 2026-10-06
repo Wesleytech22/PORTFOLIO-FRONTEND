@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wesley Rodrigues Dias — Portfólio</title>
+  <meta name="description" content="Portfólio 3D de Wesley Rodrigues Dias: desenvolvimento, Scrum e QA." />
+  <link rel="icon" href="/assets/lumen-forge-mark.png" />
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a href="#inicio" class="brand">WRD<span>.</span></a>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <p class="eyebrow">Desenvolvimento · Scrum · QA</p>
+      <h1>Wesley<br />Rodrigues Dias</h1>
+      <p class="lead">Construo sistemas web do banco de dados à interface, e garanto que o que sai do time funciona de verdade.</p>
+      <a class="btn" href="#projetos">Ver meus projetos</a>
+      <span class="hint">Mova o mouse e role a página</span>
+    </section>
+
+    <section id="sobre" class="panel">
+      <h2>Sobre</h2>
+      <div class="grid two">
+        <p>Estudante de Análise e Desenvolvimento de Sistemas na Universidade Cruzeiro do Sul e Scrum Master do time Lumen Forge. Conduzo as cerimônias, o fluxo de branches e as publicações, e também escrevo código no frontend e no backend.</p>
+        <p>No dia a dia de QA, planejo e executo testes de portal com cenários felizes, tristes e de regressão, automatizo com Cypress e registro os achados no Jira com evidência.</p>
+      </div>
+    </section>
+
+    <!-- Conteúdo das duas seções abaixo vem da API (backend). -->
+    <section id="servicos" class="panel">
+      <h2>Serviços</h2>
+      <div class="grid three" data-collection="services" aria-live="polite"></div>
+    </section>
+
+    <section id="projetos" class="panel">
+      <h2>Projetos</h2>
+      <div class="grid one" data-collection="projects" aria-live="polite"></div>
+    </section>
+
+    <section id="contato" class="panel">
+      <h2>Contato</h2>
+      <p class="muted">Edite os links abaixo no <code>frontend/index.html</code> com os seus dados.</p>
+      <div class="links">
+        <a class="btn" href="https://github.com/SEU-USUARIO" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/SEU-PERFIL" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="mailto:SEU-EMAIL@exemplo.com">E-mail</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 Wesley Rodrigues Dias</footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

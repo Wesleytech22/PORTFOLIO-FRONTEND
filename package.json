@@ -1,0 +1,18 @@
+{
+  "name": "portfolio-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfólio 3D: interface com Three.js que consome a API do backend.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.2"
+  }
+}
