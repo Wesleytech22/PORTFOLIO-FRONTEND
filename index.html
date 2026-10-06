@@ -3,63 +3,132 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wesley Rodrigues Dias — Portfólio</title>
-  <meta name="description" content="Portfólio 3D de Wesley Rodrigues Dias: desenvolvimento, Scrum e QA." />
+  <title>Wesley Rodrigues Dias — Desenvolvedor Mobile</title>
+  <meta name="description" content="Wesley Rodrigues Dias, desenvolvedor mobile: apps Android com Kotlin e Jetpack Compose, comunicação em tempo real e terminais POS." />
+  <meta property="og:title" content="Wesley Rodrigues Dias — Desenvolvedor Mobile" />
+  <meta property="og:description" content="Apps Android com Kotlin e Jetpack Compose, MQTT, AWS e terminais POS." />
+  <meta property="og:image" content="/assets/wesley-rodrigues.jpg" />
+  <meta name="theme-color" content="#070912" />
   <link rel="icon" href="/assets/lumen-forge-mark.png" />
 </head>
 <body>
   <canvas id="scene" aria-hidden="true"></canvas>
 
+  <!-- Textos com data-i18n são traduzidos por src/i18n (pt, en, zh). -->
   <header class="nav">
     <a href="#inicio" class="brand">WRD<span>.</span></a>
     <nav>
-      <a href="#sobre">Sobre</a>
-      <a href="#servicos">Serviços</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#contato">Contato</a>
+      <a href="#sobre" data-i18n="nav.about">Sobre</a>
+      <a href="#experiencia" data-i18n="nav.experience">Experiência</a>
+      <a href="#servicos" data-i18n="nav.services">Serviços</a>
+      <a href="#projetos" data-i18n="nav.projects">Projetos</a>
+      <a href="#contato" data-i18n="nav.contact">Contato</a>
     </nav>
+    <div class="lang-switch" role="group" data-i18n-aria-label="lang.label" aria-label="Idioma">
+      <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="zh" aria-pressed="false" lang="zh">中文</button>
+    </div>
   </header>
 
   <main>
     <section id="inicio" class="hero">
-      <p class="eyebrow">Desenvolvimento · Scrum · QA</p>
-      <h1>Wesley<br />Rodrigues Dias</h1>
-      <p class="lead">Construo sistemas web do banco de dados à interface, e garanto que o que sai do time funciona de verdade.</p>
-      <a class="btn" href="#projetos">Ver meus projetos</a>
-      <span class="hint">Mova o mouse e role a página</span>
-    </section>
-
-    <section id="sobre" class="panel">
-      <h2>Sobre</h2>
-      <div class="grid two">
-        <p>Estudante de Análise e Desenvolvimento de Sistemas na Universidade Cruzeiro do Sul e Scrum Master do time Lumen Forge. Conduzo as cerimônias, o fluxo de branches e as publicações, e também escrevo código no frontend e no backend.</p>
-        <p>No dia a dia de QA, planejo e executo testes de portal com cenários felizes, tristes e de regressão, automatizo com Cypress e registro os achados no Jira com evidência.</p>
+      <div class="hero-text">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Desenvolvedor Mobile</p>
+        <h1>Wesley<br />Rodrigues Dias</h1>
+        <p class="lead" data-i18n="hero.lead">Crio apps Android com Kotlin e Jetpack Compose, conectados em tempo real e prontos para rodar de smartphones a terminais de pagamento.</p>
+        <div class="links">
+          <a class="btn" href="#projetos" data-i18n="hero.ctaProjects">Ver meus projetos</a>
+          <a class="btn btn-ghost" href="#contato" data-i18n="hero.ctaContact">Falar comigo</a>
+        </div>
+        <p class="hint" data-i18n="hero.hint">Passe o mouse sobre o avatar: ele olha para você.</p>
+      </div>
+      <!-- Avatar 3D digitando código (src/scene/avatar/). -->
+      <div class="hero-avatar">
+        <canvas id="avatar" data-i18n-aria-label="hero.avatarLabel" aria-label="Avatar 3D de Wesley digitando código Kotlin"></canvas>
       </div>
     </section>
 
-    <!-- Conteúdo das duas seções abaixo vem da API (backend). -->
+    <section id="sobre" class="panel">
+      <h2 data-i18n="about.title">Sobre</h2>
+      <div class="about">
+        <figure class="photo-frame tilt">
+          <img src="/assets/wesley-rodrigues.jpg" alt="Wesley Rodrigues Dias" width="1200" height="1600" loading="lazy" />
+        </figure>
+        <div class="about-text">
+          <p data-i18n="about.p1">Sou desenvolvedor mobile, criativo e dinâmico, apaixonado por tecnologia e pela busca de soluções inovadoras. Tenho forte capacidade de análise e visão estratégica para transformar desafios em resultados concretos.</p>
+          <p data-i18n="about.p2">Atuo em todas as etapas do produto, da concepção à implantação: apps Android, comunicação em tempo real com MQTT, integração com AWS e homologação de terminais POS e totens de autoatendimento.</p>
+          <div class="facts">
+            <div class="card">
+              <h3 data-i18n="about.education">Formação</h3>
+              <p><span data-i18n="about.degree">Formado em Análise e Desenvolvimento de Sistemas</span><br /><span class="muted" data-i18n="about.school">Universidade Cruzeiro do Sul</span></p>
+            </div>
+            <div class="card">
+              <h3 data-i18n="about.languages">Idiomas</h3>
+              <p><span data-i18n="about.english">Inglês avançado</span><br /><span data-i18n="about.chinese">Chinês básico</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subtitle" data-i18n="about.skills">Competências</h3>
+      <div class="tags tags-lg">
+        <span>Kotlin</span><span>Jetpack Compose</span><span>Java</span><span>Android</span>
+        <span>AWS Mobile SDK</span><span>MQTT / WebSockets</span><span data-i18n="skill.events">Programação orientada a eventos</span><span data-i18n="skill.oop">POO</span>
+        <span data-i18n="skill.pos">Terminais POS e totens</span><span data-i18n="skill.mdm">Sistemas MDM</span><span>JavaScript</span><span>TypeScript</span><span>Node.js</span>
+      </div>
+    </section>
+
+    <!-- Conteúdo das três seções abaixo vem da API (backend), já traduzido. -->
+    <section id="experiencia" class="panel">
+      <h2 data-i18n="experience.title">Experiência</h2>
+      <div class="grid one timeline" data-collection="experiences" aria-live="polite"></div>
+    </section>
+
     <section id="servicos" class="panel">
-      <h2>Serviços</h2>
-      <div class="grid three" data-collection="services" aria-live="polite"></div>
+      <h2 data-i18n="services.title">Serviços</h2>
+      <div class="grid two" data-collection="services" aria-live="polite"></div>
     </section>
 
     <section id="projetos" class="panel">
-      <h2>Projetos</h2>
+      <h2 data-i18n="projects.title">Projetos</h2>
       <div class="grid one" data-collection="projects" aria-live="polite"></div>
     </section>
 
     <section id="contato" class="panel">
-      <h2>Contato</h2>
-      <p class="muted">Vamos conversar sobre um projeto, uma vaga ou uma ideia.</p>
-      <div class="links">
-        <a class="btn" href="https://github.com/Wesleytech22" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn" href="https://www.linkedin.com/in/wesley-rodrigues-a27706345" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="mailto:wealeyr6@gmail.com">wealeyr6@gmail.com</a>
+      <h2 data-i18n="contact.title">Contato</h2>
+      <div class="contact">
+        <div>
+          <p class="lead" data-i18n="contact.lead">Tem um app em mente, uma vaga ou uma ideia? Me mande uma mensagem: ela chega na hora no meu Telegram.</p>
+          <div class="links">
+            <a class="btn btn-ghost" href="https://github.com/Wesleytech22" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/wesley-rodrigues-a27706345" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn btn-ghost" href="mailto:wealeyr6@gmail.com">wealeyr6@gmail.com</a>
+          </div>
+        </div>
+
+        <form id="contact-form" class="card contact-form" novalidate>
+          <label><span data-i18n="form.name">Nome</span>
+            <input name="name" required maxlength="80" autocomplete="name" />
+          </label>
+          <label><span data-i18n="form.email">E-mail</span>
+            <input name="email" type="email" required maxlength="120" autocomplete="email" />
+          </label>
+          <label><span data-i18n="form.message">Mensagem</span>
+            <textarea name="message" required minlength="10" maxlength="1500" rows="5"></textarea>
+          </label>
+          <!-- Armadilha para robôs: pessoas não veem nem preenchem este campo. -->
+          <label class="trap" aria-hidden="true">Site
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+          <button class="btn" type="submit" data-i18n="form.submit">Enviar para o Telegram</button>
+          <p class="form-status" data-status role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
   </main>
 
-  <footer>© 2026 Wesley Rodrigues Dias</footer>
+  <footer data-i18n="footer.text">© 2026 Wesley Rodrigues Dias · Desenvolvedor Mobile</footer>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>
